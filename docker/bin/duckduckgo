@@ -1,0 +1,2 @@
+#!/bin/sh -e
+w3m -cols 9999 -F -m "https://duckduckgo.com/?q=${*}" | grep -A 39 -e "^1\."
