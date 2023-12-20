@@ -47,7 +47,7 @@ def run(bots, start):
     print(f'{CLEAR}{human.base}:\n{human.ansi_color}{start}', end='', flush=True)
     while True:
         result = []
-        print(f'\n{CLEAR}{ai.base}:\n{ai.ansi_color}', end='', flush=True)
+        print(f'\n\n{CLEAR}{ai.base}:\n{ai.ansi_color}', end='', flush=True)
         for part in human.llm.stream(dict_to_langchain_messages(messages)):
             print(part.content, end='', flush=True)
             result.append(part.content)
