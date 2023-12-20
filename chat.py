@@ -57,7 +57,7 @@ def handle_execute(text):
         lines = [output_pre]
         print(output_pre, end='')
         for line in execute_shell(code.strip()):
-            print(line, end='')
+            print(line, end='', flush=True)
             lines.append(line)
         lines.append(output_post)
         print(output_post)
@@ -88,7 +88,7 @@ def run(name):
             result = []
             print(f'{name}> ', end='')
             for part in llm.stream(dict_to_langchain_messages(messages)):
-                print(part.content, end='')
+                print(part.content, end='', flush=True)
                 result.append(part.content)
             print('')
             result = ''.join(result)
