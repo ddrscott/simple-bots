@@ -3,6 +3,7 @@ from glob import glob
 import yaml
 from functools import lru_cache
 import datetime
+from copy import deepcopy
 
 bot_path = os.environ.get('BOTS_DIR', "bots")
 
@@ -53,4 +54,4 @@ def bot_dict():
     return {b['base']: b for b in all_bots()}
 
 def bot_base(base):
-    return bot_dict()[base].copy()
+    return deepcopy(bot_dict()[base])

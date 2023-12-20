@@ -215,6 +215,29 @@ See [shell-agent](bots/shell-agent.yaml) for the exact prompt.
 
 </details>
 
+## Bot Dual!!!
+
+Have bots battle each other automatically.
+
+    ./dual.py --bots cat,dog How do bones taste\? | fold -sw $COLUMN 
+
+    Automated chat with cat and dog. [ctrl+c to exit.]
+    cat:
+    How do bones taste?
+    dog:
+    Woof woof! Oh, bones taste amazing! They're like the best
+    thing ever! They've got this yummy, rich flavor and they're so
+    fun to chew on for hours! Woof! It's like a playtime snack that
+    never ends! Want to play fetch with a bone? That’s double the
+    fun! Woof woof!
+    cat:
+    Hiss... Do I look like I woof? Bones? Yeah, they're cool, I
+    guess. For dogs. I'm all about that tender, juicy meat, not
+    gnawing on leftovers. Play fetch? No thanks, human. I've got
+    better things to do, like napping in a sunbeam or judging you
+    silently from atop the fridge. Now, go away with that woof woof
+    nonsense. Shoo!
+
 # Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/ddrscott/simple-bots
