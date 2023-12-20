@@ -76,7 +76,6 @@ See [shell-agent](bots/shell-agent.yaml) for the exact prompt.
 <details>
     <summary>View Example Agent Output</summary>
 
-    ./chat.py shell-agent
     Chatting with Shell Agent. [ctrl+c to exit.]
     user> How much older is Tom Hanks than Tom Holland?
     shell-agent> [I need to find the birth dates of Tom Hanks and Tom Holland to calculate the age difference.]
@@ -84,6 +83,7 @@ See [shell-agent](bots/shell-agent.yaml) for the exact prompt.
     ```execute
     duckduckgo Tom Hanks birth date
     ```
+    ```output
     1.   Tom Hanks - Wikipedia
          Thomas Jeffrey Hanks (born July 9, 1956) is an American actor and filmmaker. Known for both his comedic and dramatic roles, he is one of the most popular and recognizable film stars worldwide, and is regarded as an American cultural icon. [2]
          en.wikipedia.org/wiki/Tom_Hanks
@@ -124,13 +124,14 @@ See [shell-agent](bots/shell-agent.yaml) for the exact prompt.
          Tom Hanks was born on July 9, 1956, to Janet Marylyn and Amos Mefford Hanks in Concord, California. He is an actor, director, producer and Oscar-winning star of films such as Forrest Gump, Philadelphia and Cast Away. Learn more about his life, career, awards and net worth on Birthdaypedia.com.
          birthdaypedia.com/tom-hanks/
 
-    shell-agent> Tom Hanks was born on July 9, 1956.
 
-    Now, let's find Tom Holland's birth date.
+    ```
+    shell-agent> Tom Hanks was born on July 9, 1956. Now, let's find Tom Holland's birth date.
 
     ```execute
     duckduckgo Tom Holland birth date
     ```
+    ```output
     1.   Tom Holland - Biography - IMDb
          Biography Tom Holland Jump to Edit Overview Born June 1, 1996 · Kingston upon Thames, England, UK Birth name Thomas Stanley Holland Height 5′ 6½″ (1.69 m) Mini Bio Thomas Stanley Holland was born in Kingston-upon-Thames, Surrey, to Nicola Elizabeth (Frost), a photographer, and Dominic Holland (Dominic Anthony Holland), who is a comedian and author.
          www.imdb.com/name/nm4043618/bio/
@@ -151,55 +152,60 @@ See [shell-agent](bots/shell-agent.yaml) for the exact prompt.
          Quick Info→ Age: 27 Years Height: 5' 8" Hometown: London, England Some Lesser Known Facts About Tom Holland Does Tom Holland smoke?: Not Known Does Tom Holland drink Alcohol?: No (quit in January 2022) [2] Tom has got three brothers, two of them are twins Sam and Harry, three years younger to him.
          starsunfolded.com/tom-holland/
 
-    6.   Tom Holland - IMDb
-         99+ Photos Thomas Stanley Holland was born in Kingston-upon-Thames, Surrey, to Nicola Elizabeth (Frost), a photographer, and Dominic Holland (Dominic Anthony Holland), who is a comedian and author. His paternal grandparents were from the Isle of Man and Ireland, respectively.
-         www.imdb.com/name/nm4043618/
-
-    7.   Everything to Know About Tom Holland's Life and Career - Insider
+    6.   Everything to Know About Tom Holland's Life and Career - Insider
          Holland was born in London, England on June 1, 1996. From left, Tom Holland, Dominic Holland, Paddy Holland, Nikki Holland, Sam Holland, and Harry Holland in June 2018. David M. Benett/Dave Benett/Getty Images for Audi UK His parents are named Dominic Holland (a stand-up comedian and author) and Nikki Holland (a professional photographer ).
          www.insider.com/tom-holland-career-bio-life-2019-6
 
-    8.   Tom Holland's Personal Life: What Fans Should Know Including Age ...
-         Tom Holland was born Thomas Stanley Holland on June 1, 1996, meaning he's 23. He was raised in Kingston-upon-Thames, England, by parents who must have had a large influence on his career in...
-         www.cinemablend.com/pop/2472276/tom-hollands-personal-life-what-fans-should-know-including-age-height-relationship-status-and-more
+    7.   Tom Holland - IMDb
+         99+ Photos Thomas Stanley Holland was born in Kingston-upon-Thames, Surrey, to Nicola Elizabeth (Frost), a photographer, and Dominic Holland (Dominic Anthony Holland), who is a comedian and author. His paternal grandparents were from the Isle of Man and Ireland, respectively.
+         www.imdb.com/name/nm4043618/
 
-    9.   Tom Holland - Age, Bio, Birthday, Family, Net Worth - National Today
+    8.   Tom Holland - Age, Bio, Birthday, Family, Net Worth - National Today
          Tom Holland, born Thomas Stanley Holland on June 1, 1996, is an English actor and all-around great guy. He began his career in theater and soon after started acting in big Hollywood films. He has also appeared in "Forbes" magazine's '30 under 30 Europe.'
          nationaltoday.com/birthday/tom-holland/
+
+    9.   Tom Holland's Personal Life: What Fans Should Know Including Age ...
+         Tom Holland was born Thomas Stanley Holland on June 1, 1996, meaning he's 23. He was raised in Kingston-upon-Thames, England, by parents who must have had a large influence on his career in...
+         www.cinemablend.com/pop/2472276/tom-hollands-personal-life-what-fans-should-know-including-age-height-relationship-status-and-more
 
     10.  Tom Holland (Actor) - Variety
          Tom Holland is an English actor best known for playing Peter Parker, aka the web-slinging superhero Spider-Man, in the Marvel Cinematic Universe. ... Date of Birth June 1, 1996 Place of Birth ...
          variety.com/t/tom-holland/
 
-    shell-agent> Tom Holland was born on June 1, 1996.
 
-    Now that we have both birth dates, we can calculate the age difference between Tom Hanks and Tom Holland.
+    ```
+    shell-agent> Tom Holland was born on June 1, 1996. Now that we have both birth dates, we can calculate the age difference between Tom Hanks and Tom Holland.
 
     Tom Hanks: July 9, 1956
     Tom Holland: June 1, 1996
 
-    We will calculate the difference in years between these two dates.
+    Let's calculate the difference in years between these two dates.
 
     ```execute
     date -d "1996-06-01" +%s
     ```
+    ```output
     833587200
-    shell-agent> Tom Holland was born on June 1, 1996, which corresponds to the Unix timestamp 833587200.
 
-    Now let's convert Tom Hanks' birth date to a Unix timestamp.
+    ```
+    shell-agent> We have the Unix timestamp for Tom Holland's birth date: 833587200 (June 1, 1996). Now let's get the Unix timestamp for Tom Hanks' birth date (July 9, 1956).
 
     ```execute
     date -d "1956-07-09" +%s
     ```
+    ```output
     -425433600
-    shell-agent> Tom Hanks was born on July 9, 1956, which corresponds to the Unix timestamp -425433600.
 
-    Now we can calculate the difference in seconds between the two timestamps and then convert that into years.
+    ```
+    shell-agent> We have the Unix timestamp for Tom Hanks' birth date: -425433600 (July 9, 1956). Now we can calculate the difference in seconds between the two timestamps and then convert that into years.
 
     ```execute
     echo $(( (833587200 - -425433600) / (365*24*3600) ))
     ```
+    ```output
     39
+
+    ```
     shell-agent> #### FINAL
     Tom Hanks is 39 years older than Tom Holland.
 

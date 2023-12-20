@@ -50,12 +50,17 @@ def handle_execute(text):
     Check if text starts with "```execute" and if so,
     get the contents between the code fences and execute it.
     """
+    output_pre = '```output\n'
+    output_post = '\n```'
     # Get the contents between the code fences
     for code in re.findall(r"```execute(.*)```", text, re.DOTALL):
-        lines = []
+        lines = [output_pre]
+        print(output_pre, end='')
         for line in execute_shell(code.strip()):
             print(line, end='')
             lines.append(line)
+        lines.append(output_post)
+        print(output_post)
         return ''.join(lines)
     return False
 
@@ -89,7 +94,7 @@ def run(name):
             result = ''.join(result)
             messages.append({'role': 'ai', 'content': result})
             if output := handle_execute(result):
-                messages.append({'role': 'human', 'content': f"""```output\n{output}\n```"""})
+                messages.append({'role': 'human', 'content': output})
             else:
                 break
 
