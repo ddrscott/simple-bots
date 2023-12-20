@@ -9,7 +9,7 @@ from prompt_toolkit.history import FileHistory
 import re
 
 import bots
-from colors import COLORS, CLEAR
+from tui import COLORS, CLEAR
 
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import SystemMessage, HumanMessage, AIMessage, ChatMessage

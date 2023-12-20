@@ -4,7 +4,7 @@ import click
 from copy import deepcopy
 
 from bots import bot_base
-from colors import COLORS, CLEAR
+from tui import COLORS, CLEAR, term_width
 
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import SystemMessage, AIMessage, ChatMessage
@@ -40,22 +40,28 @@ def run(bots, start):
         bot.ansi_color = COLORS[i % len(COLORS)]
 
     human, ai = bots[0], bots[1]
+
+    human.tui_label = f'\n{CLEAR}{human.base} > {human.ansi_color}'
+    ai.tui_label = f'\n{CLEAR}< {ai.base}{ai.ansi_color}'
+
+
     # Always start with AI's history because it's responding first
     messages = deepcopy(ai.messages)
     # Load in initial message
     messages.append({'role': 'human', 'content': start})
-    print(f'{CLEAR}{human.base}:\n{human.ansi_color}{start}', end='', flush=True)
+    # print(f'{CLEAR}{human.base} >\n{human.ansi_color}{start}', end='', flush=True)
+    print(human.tui_label + f"\n{start}\n", end='', flush=True)
     while True:
         result = []
-        print(f'\n\n{CLEAR}{ai.base}:\n{ai.ansi_color}', end='', flush=True)
+        print(ai.tui_label, flush=True)
         for part in human.llm.stream(dict_to_langchain_messages(messages)):
             print(part.content, end='', flush=True)
             result.append(part.content)
+        print('')
         result = ''.join(result)
         messages.append({'role': 'ai', 'content': result})
         # rotate the bots
-        bots = bots[1:] + bots[:1]
-        human, ai = bots[0], bots[1]
+        human, ai = ai, human
         # alter the system prompt based on the next responder
         messages[0]['content'] = ai.messages[0]['content']
         # any role that's 'ai', change to 'human'
