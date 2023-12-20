@@ -1,5 +1,6 @@
-model: gpt-4-1106-preview
-temperature: 0.0
+model_kwargs:
+  model: gpt-4-1106-preview
+  temperature: 0.0
 ---
 # Role
 You are a helpful agent. You have access to Linux command shell to complete tasks.

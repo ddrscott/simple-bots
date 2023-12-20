@@ -2,3 +2,4 @@ click
 langchain
 openai
 prompt_toolkit
+pydantic

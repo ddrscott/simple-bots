@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import os
 import click
+from copy import deepcopy
 import logging
 import subprocess
 from prompt_toolkit import PromptSession
@@ -8,16 +9,17 @@ from prompt_toolkit.history import FileHistory
 import re
 
 import bots
+from colors import COLORS, CLEAR
 
 from langchain.chat_models import ChatOpenAI
-from langchain.schema import SystemMessage, HumanMessage, AIMessage
+from langchain.schema import SystemMessage, HumanMessage, AIMessage, ChatMessage
 
 BRAINS_IMAGE = os.environ.get('BRAINS_IMAGE', 'ddrscott/brains')
 REPL_HISTORY = '.prompt_toolkit_history'
 ROLE_TO_CLASS = {
     'system': SystemMessage,
     'human': HumanMessage,
-    'user': HumanMessage,
+    'user': ChatMessage,
     'ai': AIMessage
 }
 
@@ -42,7 +44,6 @@ def execute_shell(cmd):
     return process.returncode
 
 def dict_to_langchain_messages(messages):
-
     return [ROLE_TO_CLASS[h['role']](content=h['content']) for h in messages]
 
 def handle_execute(text):
@@ -71,26 +72,24 @@ def run(name):
 
     bot = bots.bot_base(name)
 
-    print(f'Chatting with {bot["title"]}. [ctrl+c to exit.]')
+    print(f'Chatting with {bot.title}. [ctrl+c to exit.]')
 
     llm=ChatOpenAI(
-            client=None,
-            model=bot['model'],
-            temperature=bot['temperature'],
             streaming=True,
+            **(bot.model_kwargs or {})
         )
-    messages = bot['history'].copy()
+    messages = deepcopy(bot.messages)
     while True:
-        user_input = session.prompt("user> ")
+        user_input = session.prompt(f"user: ")
 
         messages.append({'role': 'human', 'content': user_input})
         while True:
             result = []
-            print(f'{name}> ', end='')
+            print(f'{COLORS[0]}')
             for part in llm.stream(dict_to_langchain_messages(messages)):
                 print(part.content, end='', flush=True)
                 result.append(part.content)
-            print('')
+            print('\n')
             result = ''.join(result)
             messages.append({'role': 'ai', 'content': result})
             if output := handle_execute(result):
