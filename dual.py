@@ -12,7 +12,6 @@ from langchain.schema import SystemMessage, AIMessage, ChatMessage
 BRAINS_IMAGE = os.environ.get('BRAINS_IMAGE', 'ddrscott/brains')
 REPL_HISTORY = '.prompt_toolkit_history'
 
-
 def dict_to_langchain_messages(messages):
     return [
         AIMessage(content=message['content']) if message['role'] == 'ai' else
@@ -41,8 +40,8 @@ def run(bots, start):
 
     human, ai = bots[0], bots[1]
 
-    human.tui_label = f'\n{CLEAR}{human.base} > {human.ansi_color}'
-    ai.tui_label = f'\n{CLEAR}< {ai.base}{ai.ansi_color}'
+    human.tui_label = f'\n{CLEAR}**{human.base}**{human.ansi_color}'
+    ai.tui_label = f'\n{CLEAR}**{ai.base}**{ai.ansi_color}'
 
 
     # Always start with AI's history because it's responding first
@@ -59,6 +58,8 @@ def run(bots, start):
             result.append(part.content)
         print('')
         result = ''.join(result)
+        if '/leave' in result:
+            exit(0)
         messages.append({'role': 'ai', 'content': result})
         # rotate the bots
         human, ai = ai, human
